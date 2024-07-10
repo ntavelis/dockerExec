@@ -23,7 +23,7 @@ func main() {
 
 	// Check if the containerID argument is provided
 	if len(flag.Args()) < 1 {
-		fmt.Println("Usage: program --shell=<shell_type> --user=<user> <containerID>")
+		fmt.Println("Usage: program --shell=/bin/bash --user=root --promptStyle=\"\\u@\\w:\\p\" --promptSymbol=\"\\$\" <containerID>")
 		os.Exit(1)
 	}
 
