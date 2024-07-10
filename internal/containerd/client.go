@@ -1,21 +1,14 @@
-// containerd.go
 package containerd
 
 import (
 	"context"
-	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/client"
 	"io"
 )
 
-type DockerClient interface {
-	ContainerExecCreate(ctx context.Context, container string, options container.ExecOptions) (types.IDResponse, error)
-	ContainerExecAttach(ctx context.Context, execID string, config container.ExecAttachOptions) (types.HijackedResponse, error)
-}
-
 type Client struct {
-	client DockerClient
+	client *client.Client
 }
 
 type InteractiveCommand struct {
@@ -30,10 +23,6 @@ func NewDefaultClient() (*Client, error) {
 	}
 
 	return &Client{client: cli}, nil
-}
-
-func NewClient(dockerClient DockerClient) *Client {
-	return &Client{client: dockerClient}
 }
 
 func (c *Client) ExecInteractiveCommand(ctx context.Context, containerId, cmd, user string) (*InteractiveCommand, error) {
