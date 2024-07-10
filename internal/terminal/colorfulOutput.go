@@ -6,6 +6,7 @@ import (
 	"github.com/fatih/color"
 	"io"
 	"regexp"
+	"strings"
 )
 
 // ANSI color codes
@@ -15,7 +16,7 @@ var (
 	boldGreen = color.New(color.FgGreen, color.Bold).SprintFunc()
 )
 
-func ColorfulOutput(cmdOut io.Reader, printer io.Writer) error {
+func ColorfulOutput(cmdOut io.Reader, printer io.Writer, promptStyle, promptSymbol string) error {
 	reader := bufio.NewReader(cmdOut)
 
 	buffer := make([]byte, 1024)
@@ -39,7 +40,7 @@ func ColorfulOutput(cmdOut io.Reader, printer io.Writer) error {
 		if matches != nil {
 			prefix, user, path := matches[1], matches[2], matches[4]
 
-			styledReplacement := fmt.Sprintf("%s👨 %s ~> 📂%s\r\n%s", prefix, blue(user), yellow(path), boldGreen(">"))
+			styledReplacement := prependPrefix(formatPrompt(promptStyle, user, path, promptSymbol), prefix)
 
 			// Replace non styled text with the styled text in the original input
 			styledInput := re.ReplaceAllString(input, styledReplacement)
@@ -56,4 +57,25 @@ func ColorfulOutput(cmdOut io.Reader, printer io.Writer) error {
 	}
 
 	return nil
+}
+
+func formatPrompt(unparsedPrompt, user, workingDir, promptSymbol string) string {
+	// Placeholder map
+	placeholders := map[string]string{
+		"\\u": blue(user),
+		"\\p": boldGreen(promptSymbol),
+		"\\w": yellow(workingDir),
+	}
+
+	// Replace placeholders in the format string
+	parsedPrompt := unparsedPrompt
+	for placeholder, value := range placeholders {
+		parsedPrompt = strings.ReplaceAll(parsedPrompt, placeholder, value)
+	}
+
+	return parsedPrompt
+}
+
+func prependPrefix(text, prefix string) string {
+	return prefix + text
 }

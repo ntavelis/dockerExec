@@ -72,7 +72,7 @@ func run(ctx context.Context, logger *slog.Logger, containerId string, state *te
 
 	outputDone := make(chan struct{}, 1)
 	go func() {
-		err := terminal.ColorfulOutput(interactiveCommand.Reader, os.Stdout)
+		err := terminal.ColorfulOutput(interactiveCommand.Reader, os.Stdout, promptStyle, promptSymbol)
 		if err != nil {
 			handleError(err, logger, state)
 		}
@@ -93,73 +93,3 @@ func handleError(err error, logger *slog.Logger, previousState *term.State) {
 		os.Exit(1)
 	}
 }
-
-// colorfulOutput reads from cmdOut using a buffer and outputs colorful terminal-like text.
-//func colorfulOutput(cmdOut io.Reader, promptStyle, promptSymbol string) error {
-//	reader := bufio.NewReader(cmdOut)
-//
-//	buffer := make([]byte, 1024)
-//
-//	for {
-//		read, err := reader.Read(buffer)
-//		if err != nil && err != io.EOF {
-//			return err
-//		}
-//
-//		if err == io.EOF {
-//			break
-//		}
-//
-//		input := string(buffer[:read])
-//
-//		// Regular expression to match the pattern
-//		re := regexp.MustCompile(`(?:\x1b\[\?2004h|\x1b\[H\x1b\[2J)?([\w]+)@([\w.-]+):([^#$]+)[#$]`)
-//
-//		// Find the matchesunparsedPrompt
-//		matches := re.FindStringSubmatch(input)
-//		if matches != nil {
-//			// Extract user, host, and path
-//			user, path := matches[1], matches[3]
-//
-//			// Construct the styled output
-//			// Construct the styled replacement
-//			styledReplacement := prependEscapeChar(formatPrompt(promptStyle, user, path, promptSymbol))
-//
-//			// Replace the unstyled text with the styled text in the original input
-//			styledInput := re.ReplaceAllString(input, styledReplacement)
-//			_, err = fmt.Fprint(os.Stdout, styledInput)
-//			if err != nil {
-//				return err
-//			}
-//		} else {
-//			_, err = fmt.Fprint(os.Stdout, input)
-//			if err != nil {
-//				return err
-//			}
-//		}
-//	}
-//
-//	return nil
-//}
-
-//func formatPrompt(unparsedPrompt, user, workingDir, promptSymbol string) string {
-//	// Placeholder map
-//	placeholders := map[string]string{
-//		"\\u": blue(user),
-//		"\\p": boldGreen(promptSymbol),
-//		"\\w": yellow(workingDir),
-//	}
-//
-//	// Replace placeholders in the format string
-//	parsedPrompt := unparsedPrompt
-//	for placeholder, value := range placeholders {
-//		parsedPrompt = strings.ReplaceAll(parsedPrompt, placeholder, value)
-//	}
-//
-//	return parsedPrompt
-//}
-//
-//func prependEscapeChar(text string) string {
-//	// add escape char for terminal
-//	return "\u001B[?2004h" + text
-//}
