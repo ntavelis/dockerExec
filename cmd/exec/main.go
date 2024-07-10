@@ -10,6 +10,7 @@ import (
 	"github.com/moby/term"
 	"log/slog"
 	"os"
+	"strings"
 )
 
 const usage = `Usage:
@@ -19,11 +20,11 @@ dockerExec <containerID> ~> Opens a bash session inside container and uses the d
 dockerExec --shell=/bin/bash --user=root --promptStyle="\\u@\\w:\\p" --promptSymbol="$" <containerID> ~> Full usage with all supported flags, please read documentation for details
 
 Flags:
-  --shell      Specify the shell to use (default: /bin/bash)
-  --user       Specify the user to run the shell as (default: current user)
-  --promptStyle  Customize the prompt style (default: "\\u@\\w:\\p")
-  --promptSymbol Customize the prompt symbol (default: "$")
-  --help       Display this help message
+  --shell        Specify the shell to use (default: /bin/bash)
+  --user         Specify the user to run the shell as (default: current user)
+  --promptStyle  Customize the prompt style (default: "👨\\u ~> 📂\\w\r\n\\p")
+  --promptSymbol Customize the prompt symbol (default: ">")
+  --help         Display this help message
 `
 
 func main() {
@@ -72,7 +73,7 @@ func main() {
 
 	ctx := context.Background()
 
-	if err := run(ctx, logger, containerId, previousState, *promptStyle, *promptSymbol, *shell, *user); err != nil {
+	if err := run(ctx, logger, containerId, previousState, unescapeString(*promptStyle), *promptSymbol, *shell, *user); err != nil {
 		handleError(err, logger, previousState)
 	}
 }
@@ -118,4 +119,12 @@ func handleError(err error, logger *slog.Logger, previousState *term.State) {
 		logger.Error(err.Error())
 		os.Exit(1)
 	}
+}
+
+// unescapeString Unescape promptStyle flag to properly parse specific special chars
+func unescapeString(s string) string {
+	s = strings.ReplaceAll(s, `\n`, "\n")
+	s = strings.ReplaceAll(s, `\r`, "\r")
+	s = strings.ReplaceAll(s, `\t`, "\t")
+	return s
 }
