@@ -12,18 +12,44 @@ import (
 	"os"
 )
 
+const usage = `Usage:
+
+dockerExec <containerID> ~> Opens a bash session inside container and uses the default prompt style
+
+dockerExec --shell=/bin/bash --user=root --promptStyle="\\u@\\w:\\p" --promptSymbol="$" <containerID> ~> Full usage with all supported flags, please read documentation for details
+
+Flags:
+  --shell      Specify the shell to use (default: /bin/bash)
+  --user       Specify the user to run the shell as (default: current user)
+  --promptStyle  Customize the prompt style (default: "\\u@\\w:\\p")
+  --promptSymbol Customize the prompt symbol (default: "$")
+  --help       Display this help message
+`
+
 func main() {
 	// -------------------------------------------------------------------------
 	// FLAGS
-	shell := flag.String("shell", "/bin/bash", "The shell to use")
-	user := flag.String("user", "", "The user to login with")
-	promptStyle := flag.String("promptStyle", "👨\\u ~> 📂\\w\r\n\\p", "The prompt style to use")
-	promptSymbol := flag.String("promptSymbol", ">", "The prompt symbol to use")
+	shell := flag.String("shell", "/bin/bash", "Specify the shell to use")
+	user := flag.String("user", "", "Specify the user to run the shell as")
+	promptStyle := flag.String("promptStyle", "👨\\u ~> 📂\\w\r\n\\p", "Customize the prompt style")
+	promptSymbol := flag.String("promptSymbol", ">", "Customize the prompt symbol")
+	help := flag.Bool("help", false, "Display this help message")
+
+	flag.Usage = func() {
+		fmt.Fprintln(os.Stderr, usage)
+	}
 	flag.Parse()
+
+	// Help is needed, print message
+	if *help {
+		flag.Usage()
+		os.Exit(0)
+	}
 
 	// Check if the containerID argument is provided
 	if len(flag.Args()) < 1 {
-		fmt.Println("Usage: program --shell=/bin/bash --user=root --promptStyle=\"\\u@\\w:\\p\" --promptSymbol=\"\\$\" <containerID>")
+		fmt.Fprintln(os.Stderr, "Error: containerID is required")
+		flag.Usage()
 		os.Exit(1)
 	}
 
