@@ -29,13 +29,23 @@ func TestColorfulOutput(t *testing.T) {
 			false,
 		},
 		{
-			"ItWillHandleBashPrompt",
+			"ItWillHandleBashPromptWithTerminalTitle",
 			args{
 				bytes.NewBufferString("]0;root@e80dbcfcaa55: /srv/app\aroot@e80dbcfcaa55:/srv/app#"),
 				"👨 \\u ~> 📂\\w\r\n\\p",
 				">",
 			},
 			"]0;root@e80dbcfcaa55: /srv/app\a👨 root ~> 📂/srv/app\r\n>",
+			false,
+		},
+		{
+			"ItWillHandleBashPromptWithClearTerminalInstruction",
+			args{
+				bytes.NewBufferString("\x1b[2Jroot@5a66b46f01bb:/#"),
+				"👨 \\u ~> 📂\\w\r\n\\p",
+				">",
+			},
+			"\u001B[2Jroot👨 root ~> 📂/\r\n> ",
 			false,
 		},
 		{
