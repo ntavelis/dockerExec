@@ -1,0 +1,16 @@
+project_name: my-go-project
+builds:
+    - goos:
+          - linux
+          - darwin
+      goarch:
+          - amd64
+          - arm64
+      main: ./cmd/exec/
+archives:
+    - format: tar.gz
+      name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+release:
+    github:
+        owner: ntavelis
+        name: dockerExec
