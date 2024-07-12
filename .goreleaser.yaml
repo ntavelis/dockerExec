@@ -10,6 +10,7 @@ builds:
     goos:
       - linux
       - darwin
+    main: ./cmd/exec/
 
 archives:
   - format: tar.gz
