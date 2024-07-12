@@ -41,11 +41,11 @@ func TestColorfulOutput(t *testing.T) {
 		{
 			"ItWillHandleBashPromptWithClearTerminalInstruction",
 			args{
-				bytes.NewBufferString("\x1b[2Jroot@5a66b46f01bb:/#"),
+				bytes.NewBufferString("\x1b[2Jroot@5a66b46f01bb:/# "),
 				"👨 \\u ~> 📂\\w\r\n\\p",
 				">",
 			},
-			"\u001B[2Jroot👨 root ~> 📂/\r\n> ",
+			"\u001B[2J👨 root ~> 📂/\r\n> ",
 			false,
 		},
 		{

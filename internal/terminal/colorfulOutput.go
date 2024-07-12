@@ -34,7 +34,7 @@ func ColorfulOutput(cmdOut io.Reader, printer io.Writer, promptStyle, promptSymb
 		input := string(buffer[:read])
 
 		// Regular expression to match the prompt pattern including ANSI escape sequences
-		re := regexp.MustCompile(`(\x1b\)][^\a]*\a|\x1b\[\?2004h)?([\w]+)@([\w.-]+):([^\s#$]+)[#$]`)
+		re := regexp.MustCompile(`(\x1b\)][^\a]*\a|\x1b\[\?2004h|\x1b\[2J)?([\w]+)@([\w.-]+):([^\s#$]+)[#$]`)
 
 		matches := re.FindStringSubmatch(input)
 		if matches != nil {
