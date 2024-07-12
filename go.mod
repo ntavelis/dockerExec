@@ -1,4 +1,4 @@
-module dockerExec
+module github.com/ntavelis/dockerExec
 
 go 1.22.5
 
