@@ -7,7 +7,7 @@ help:
 .PHONY: build-project
 build-project:
 	mkdir -p bin
-	go build -o ./bin/dockerExec ./cmd/exec/
+	go build -o ./bin/dockerExec ./cmd/dockerExec/
 
 ## go-tests: Runs all golang tests for all packages
 .PHONY: go-tests
