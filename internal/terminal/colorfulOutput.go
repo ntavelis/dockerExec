@@ -13,7 +13,7 @@ import (
 // ANSI color codes
 var (
 	yellow    = color.New(color.FgYellow).SprintFunc()
-	blue      = color.New(color.FgBlue).SprintFunc()
+	blue      = color.New(color.FgHiBlue).SprintFunc()
 	boldGreen = color.New(color.FgGreen, color.Bold).SprintFunc()
 )
 
