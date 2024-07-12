@@ -3,10 +3,11 @@ package terminal
 import (
 	"bufio"
 	"fmt"
-	"github.com/fatih/color"
 	"io"
 	"regexp"
 	"strings"
+
+	"github.com/fatih/color"
 )
 
 // ANSI color codes

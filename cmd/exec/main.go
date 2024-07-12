@@ -2,15 +2,16 @@ package main
 
 import (
 	"context"
-	"dockerExec/internal/containerd"
-	"dockerExec/internal/handler"
-	"dockerExec/internal/terminal"
 	"flag"
 	"fmt"
-	"github.com/moby/term"
 	"log/slog"
 	"os"
 	"strings"
+
+	"github.com/moby/term"
+	"github.com/ntavelis/dockerExec/internal/containerd"
+	"github.com/ntavelis/dockerExec/internal/handler"
+	"github.com/ntavelis/dockerExec/internal/terminal"
 )
 
 const usage = `Usage:

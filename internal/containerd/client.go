@@ -2,9 +2,10 @@ package containerd
 
 import (
 	"context"
+	"io"
+
 	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/client"
-	"io"
 )
 
 type Client struct {
