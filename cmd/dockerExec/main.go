@@ -14,6 +14,7 @@ import (
 	"github.com/ntavelis/dockerExec/internal/terminal"
 )
 
+const version = "0.0.5"
 const usage = `Usage:
 
 dockerExec <containerID> ~> Opens a bash session inside container and uses the default prompt style
@@ -25,7 +26,8 @@ Flags:
   --user         Specify the user to run the shell as (default: current user)
   --promptStyle  Customize the prompt style (default: "👨\\u ~> 📂\\w\r\n\\p")
   --promptSymbol Customize the prompt symbol (default: ">")
-  --help         Display this help message`
+  --help (-h)    Display this help message
+  --help (-v)    Display version information`
 
 func main() {
 	// -------------------------------------------------------------------------
@@ -35,6 +37,9 @@ func main() {
 	promptStyle := flag.String("promptStyle", "👨\\u ~> 📂\\w\r\n\\p", "Customize the prompt style")
 	promptSymbol := flag.String("promptSymbol", ">", "Customize the prompt symbol")
 	help := flag.Bool("help", false, "Display this help message")
+	flag.BoolVar(help, "h", false, "Display this help message (long format)")
+	ver := flag.Bool("v", false, "Print version information")
+	flag.BoolVar(ver, "version", false, "Print version information (long format)")
 
 	flag.Usage = func() {
 		fmt.Fprintln(os.Stderr, usage)
@@ -44,6 +49,12 @@ func main() {
 	// Help is needed, print message
 	if *help {
 		flag.Usage()
+		os.Exit(0)
+	}
+
+	// Version is needed, print it
+	if *ver {
+		fmt.Fprintf(os.Stdout, "v%s\n", version)
 		os.Exit(0)
 	}
 
