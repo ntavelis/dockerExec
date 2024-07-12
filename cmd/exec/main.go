@@ -24,8 +24,7 @@ Flags:
   --user         Specify the user to run the shell as (default: current user)
   --promptStyle  Customize the prompt style (default: "👨\\u ~> 📂\\w\r\n\\p")
   --promptSymbol Customize the prompt symbol (default: ">")
-  --help         Display this help message
-`
+  --help         Display this help message`
 
 func main() {
 	// -------------------------------------------------------------------------
