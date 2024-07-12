@@ -7,6 +7,7 @@ builds:
           - amd64
           - arm64
       main: ./cmd/exec/
+      ldflags: "-s -w"
 archives:
     - format: tar.gz
       name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
