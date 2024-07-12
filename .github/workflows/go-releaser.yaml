@@ -1,33 +1,32 @@
-name: Go Release
+name: goreleaser
 
 on:
+    pull_request:
     push:
+        # run only against tags
         tags:
-            - 'v*.*.*'  # Triggers the workflow on tag creation matching this pattern
+            - "*"
 
 permissions:
     contents: write
 
 jobs:
-    release:
+    goreleaser:
         runs-on: ubuntu-latest
-
         steps:
-            - name: Checkout code
-              uses: actions/checkout@v3
-
+            - name: Checkout
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
             - name: Set up Go
-              uses: actions/setup-go@v4
+              uses: actions/setup-go@v5
               with:
-                  go-version: '1.22'
-
-            - name: Set up Goreleaser
-              uses: goreleaser/goreleaser-action@v4
+                  go-version: stable
+            - name: Run GoReleaser
+              uses: goreleaser/goreleaser-action@v6
               with:
-                  version: latest
+                  distribution: goreleaser
+                  version: "~> v2"
                   args: release --clean
-
-            - name: Run Goreleaser
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              run: goreleaser release --clean
