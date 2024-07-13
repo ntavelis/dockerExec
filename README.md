@@ -22,7 +22,7 @@ go install github.com/ntavelis/dockerExec/cmd/dockerExec@latest
 For instance for, VERSION=v1.0.0 and BINARY=dockerExec_Linux_x86_64
 ```bash
 wget https://github.com/ntavelis/dockerExec/releases/download/${VERSION}/${BINARY}.tar.gz -O - |\
-  tar xz && sudo mv dockerExec /usr/bin/dockerExec && rm README.md
+  tar xz && mv dockerExec /usr/bin/dockerExec && rm README.md
 ```
 
 ## Usage
@@ -44,9 +44,10 @@ dockerExec --shell=/bin/bash --user=root --promptStyle="\\u@\\w:\\p" --promptSym
 
 * --shell: Specify the shell to use (default: /bin/bash)
 * --user: Specify the user to run the shell as (default: current user)
-* --promptStyle: Customize the prompt style (default: "👨\u ~> 📂\w\r\n\p")
+* --promptStyle: Customize the prompt style (default: "👨\\\u ~> 📂\\\w\r\n\\\p")
 * --promptSymbol: Customize the prompt symbol (default: ">")
-* --help: Display the help message
+* --help(-h): Display the help message
+* --version(-v): Display version information
 
 ## Customizing the Prompt
 
