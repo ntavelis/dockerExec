@@ -14,7 +14,7 @@ import (
 	"github.com/ntavelis/dockerExec/internal/terminal"
 )
 
-const version = "0.0.7"
+const version = "0.0.8"
 const usage = `Usage:
 
 dockerExec <containerID> ~> Opens a bash session inside container and uses the default prompt style
