@@ -67,13 +67,12 @@ func main() {
 
 	// The first argument after the flags is the containerID
 	containerId := flag.Arg(0)
+	// -------------------------------------------------------------------------
+	// LOGGER
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
 		AddSource: false,
 		Level:     slog.LevelInfo,
 	}))
-
-	// -------------------------------------------------------------------------
-	// LOGGER
 	logger.Debug(fmt.Sprintf("Opening %s session inside container with id: %s", *shell, containerId))
 
 	// -------------------------------------------------------------------------
