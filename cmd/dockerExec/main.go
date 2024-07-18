@@ -37,9 +37,9 @@ func main() {
 	promptStyle := flag.String("promptStyle", "👨\\u ~> 📂\\w\r\n\\p", "Customize the prompt style")
 	promptSymbol := flag.String("promptSymbol", ">", "Customize the prompt symbol")
 	help := flag.Bool("help", false, "Display this help message")
-	flag.BoolVar(help, "h", false, "Display this help message (long format)")
-	ver := flag.Bool("v", false, "Print version information")
-	flag.BoolVar(ver, "version", false, "Print version information (long format)")
+	flag.BoolVar(help, "h", false, "Display this help message (short format)")
+	ver := flag.Bool("version", false, "Print version information")
+	flag.BoolVar(ver, "v", false, "Print version information (short format)")
 
 	flag.Usage = func() {
 		fmt.Fprintln(os.Stderr, usage)
@@ -132,6 +132,7 @@ func handleError(err error, logger *slog.Logger, previousState *term.State) {
 	}
 }
 
+// unescapeString Unescape promptStyle flag to properly parse specific special chars
 // unescapeString Unescape promptStyle flag to properly parse specific special chars
 func unescapeString(s string) string {
 	s = strings.ReplaceAll(s, `\n`, "\n")
