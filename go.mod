@@ -3,7 +3,7 @@ module github.com/ntavelis/dockerExec
 go 1.22
 
 require (
-	github.com/docker/docker v27.0.3+incompatible
+	github.com/docker/docker v27.1.0+incompatible
 	github.com/fatih/color v1.17.0
 	github.com/moby/term v0.5.0
 )
